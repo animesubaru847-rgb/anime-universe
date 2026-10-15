@@ -1,0 +1,733 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#100b1e">
+<meta name="description" content="Anime Universe — discover anime, explore genres, and build your personal watchlist.">
+<title>Anime Universe | Discover Your Next World</title>
+
+<style>
+:root {
+  --bg:#0b0813;
+  --panel:#151020;
+  --panel2:#1d152c;
+  --purple:#a855f7;
+  --pink:#ec4899;
+  --text:#f8f5ff;
+  --muted:#aaa0bc;
+  --border:rgba(255,255,255,.09);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:
+  radial-gradient(ellipse at 10% 0%,rgba(126,34,206,.16),transparent 35%),
+  radial-gradient(ellipse at 90% 15%,rgba(219,39,119,.09),transparent 30%),
+  var(--bg);
+  color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif;
+  min-height:100vh
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{
+  outline:2px solid #e879f9;outline-offset:3px
+}
+a{color:inherit;text-decoration:none}
+.container{width:min(1200px,92%);margin:auto}
+.nav{
+  position:sticky;top:0;z-index:20;
+  background:rgba(11,8,19,.88);backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border)
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:-.6px}
+.logo-mark{
+  display:grid;place-items:center;width:38px;height:38px;border-radius:12px;
+  background:linear-gradient(135deg,var(--purple),var(--pink));font-size:20px;
+  box-shadow:0 5px 25px #a855f744
+}
+.logo span:last-child{font-size:18px}
+.nav-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{
+  display:inline-flex;justify-content:center;align-items:center;gap:7px;
+  border:1px solid var(--border);border-radius:12px;padding:10px 14px;
+  color:var(--text);background:var(--panel2);font-weight:700;transition:.2s
+}
+.btn:hover{transform:translateY(-2px);border-color:#a855f7aa}
+.btn-primary{border:0;background:linear-gradient(120deg,#9333ea,#db2777)}
+.btn-ghost{background:transparent}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.hero{padding:54px 0 28px}
+.hero-box{
+  position:relative;overflow:hidden;border:1px solid var(--border);
+  border-radius:26px;padding:clamp(24px,5vw,58px);
+  background:linear-gradient(115deg,#211234ee,#151020ee 58%,#34112a99);
+}
+.hero-box:before{
+  content:"";position:absolute;width:300px;height:300px;border-radius:50%;
+  background:#9333ea33;filter:blur(65px);right:-70px;top:-100px;pointer-events:none
+}
+.eyebrow{color:#e9a8ff;text-transform:uppercase;font-size:12px;font-weight:900;letter-spacing:2px}
+h1{font-size:clamp(36px,7vw,70px);line-height:1.04;letter-spacing:-2.5px;margin:15px 0}
+.gradient-text{background:linear-gradient(90deg,#d8b4fe,#f9a8d4);color:transparent;background-clip:text}
+.hero p{color:var(--muted);line-height:1.8;max-width:620px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.stats{display:flex;gap:25px;flex-wrap:wrap;margin-top:28px;color:var(--muted);font-size:13px}
+.stats strong{display:block;color:var(--text);font-size:18px}
+.section{padding:24px 0 42px}
+.section-heading{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:18px}
+.section-heading h2{font-size:clamp(22px,4vw,30px);margin:0;letter-spacing:-.7px}
+.section-heading p{margin:6px 0 0;color:var(--muted);font-size:13px}
+.toolbar{
+  display:grid;grid-template-columns:minmax(0,1fr) 170px 170px;
+  gap:10px;margin-bottom:20px
+}
+.search-wrap{position:relative}
+.search-wrap span{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.7}
+.field{
+  width:100%;min-width:0;background:var(--panel);border:1px solid var(--border);
+  border-radius:12px;padding:13px 14px;color:var(--text)
+}
+.search-input{padding-left:42px}
+.field option{background:#171022}
+.status{color:var(--muted);font-size:13px;min-height:22px;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.card{
+  min-width:0;overflow:hidden;background:linear-gradient(160deg,#1c1429,#110d1a);
+  border:1px solid var(--border);border-radius:var(--radius);
+  transition:transform .23s,border-color .23s,box-shadow .23s
+}
+.card:hover{transform:translateY(-5px);border-color:#a855f788;box-shadow:0 12px 35px #0005}
+.poster{position:relative;aspect-ratio:3/4;background:#21172d;overflow:hidden}
+.poster img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.card:hover .poster img{transform:scale(1.04)}
+.poster-fallback{height:100%;display:grid;place-items:center;color:var(--muted);padding:18px;text-align:center}
+.score{
+  position:absolute;left:10px;top:10px;border-radius:8px;padding:6px 8px;
+  background:#100b1ddd;font-size:12px;font-weight:900
+}
+.fav{
+  position:absolute;right:10px;top:10px;width:37px;height:37px;
+  border:1px solid #ffffff30;border-radius:50%;background:#100b1ddd;
+  color:white;font-size:19px
+}
+.fav.active{color:#fb7185;background:#3b1028}
+.card-body{padding:13px}
+.card-title{font-size:15px;line-height:1.4;margin:0 0 8px;font-weight:800}
+.meta{display:flex;gap:7px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-bottom:10px}
+.tags{display:flex;gap:5px;flex-wrap:wrap;margin:9px 0 13px}
+.tag{font-size:10px;padding:5px 7px;border-radius:6px;background:#a855f719;color:#d8b4fe}
+.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.card-actions .btn{padding:9px 5px;font-size:11px;border-radius:9px}
+.empty,.message-box{
+  border:1px dashed #ffffff25;border-radius:18px;padding:34px 18px;
+  text-align:center;background:#ffffff03
+}
+.empty h3{margin:8px 0}
+.empty p,.message-box p{color:var(--muted);font-size:14px;line-height:1.6}
+.empty-icon{font-size:34px}
+.skeleton{height:350px;border-radius:18px;background:linear-gradient(100deg,#1a1325 25%,#2a1d39 45%,#1a1325 65%);background-size:200% 100%;animation:shimmer 1.3s infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
+.bottom-actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:25px}
+.footer{border-top:1px solid var(--border);padding:25px 0 35px;color:var(--muted);font-size:12px;line-height:1.8}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.toast{
+  position:fixed;z-index:50;bottom:22px;left:50%;transform:translate(-50%,20px);
+  opacity:0;pointer-events:none;background:#281b38;border:1px solid #a855f755;
+  border-radius:12px;padding:12px 18px;box-shadow:0 8px 30px #0007;
+  transition:.25s;max-width:90%;font-size:13px
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.small-note{color:var(--muted);font-size:12px;line-height:1.7}
+[hidden]{display:none!important}
+@media(max-width:950px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){
+  .container{width:92%}.nav-inner{padding:10px 0}.logo span:last-child{font-size:15px}
+  .nav-actions .btn{font-size:12px;padding:9px}
+  .hero{padding-top:24px}.hero-box{border-radius:20px}
+  .toolbar{grid-template-columns:1fr 1fr}.search-wrap{grid-column:1/-1}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}
+  .card-body{padding:10px}.card-title{font-size:13px}
+  .card-actions{grid-template-columns:1fr}.card-actions .btn{font-size:11px}
+  .stats{gap:16px}.section-heading{align-items:start;flex-direction:column}
+  .skeleton{height:250px}
+}
+@media(max-width:360px){.grid{grid-template-columns:1fr 1fr}.logo-mark{width:32px;height:32px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+
+<body>
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="logo" href="#" aria-label="Anime Universe home">
+      <span class="logo-mark">✦</span>
+      <span>ANIME <span class="gradient-text">UNIVERSE</span></span>
+    </a>
+    <div class="nav-actions">
+      <button class="btn btn-ghost" id="myListBtn">♡ My List <span id="favCount">0</span></button>
+      <button class="btn btn-primary" id="exportBtn">⇩ Export</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="hero-box">
+      <div class="eyebrow">✦ Your next adventure starts here</div>
+      <h1>Enter the world of<br><span class="gradient-text">Anime.</span></h1>
+      <p>Discover unforgettable stories, legendary heroes, hidden gems, and entire worlds waiting for you. Find your next favourite anime.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" id="exploreBtn">Explore Anime ↗</button>
+        <button class="btn" id="heroListBtn">♡ Open My List</button>
+      </div>
+      <div class="stats">
+        <div><strong>∞</strong>Stories to discover</div>
+        <div><strong>20+</strong>Genres to explore</div>
+        <div><strong>100%</strong>Free to browse</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="discover">
+    <div class="section-heading">
+      <div>
+        <h2 id="sectionTitle">Discover Anime</h2>
+        <p id="sectionSubtitle">Find your next favourite story.</p>
+      </div>
+      <button class="btn btn-ghost" id="resetBtn">↻ Reset filters</button>
+    </div>
+
+    <div class="toolbar">
+      <div class="search-wrap">
+        <span>⌕</span>
+        <input class="field search-input" id="searchInput" type="search"
+          placeholder="Search anime titles..." autocomplete="off" aria-label="Search anime">
+      </div>
+      <select class="field" id="genreSelect" aria-label="Filter by genre">
+        <option value="">All genres</option>
+        <option value="1">Action</option>
+        <option value="2">Adventure</option>
+        <option value="4">Comedy</option>
+        <option value="8">Drama</option>
+        <option value="10">Fantasy</option>
+        <option value="14">Horror</option>
+        <option value="7">Mystery</option>
+        <option value="22">Romance</option>
+        <option value="24">Sci-Fi</option>
+        <option value="36">Slice of Life</option>
+        <option value="30">Sports</option>
+        <option value="37">Supernatural</option>
+        <option value="41">Suspense</option>
+      </select>
+      <select class="field" id="sortSelect" aria-label="Sort anime">
+        <option value="score">Top rated</option>
+        <option value="popularity">Most popular</option>
+        <option value="newest">Newest year</option>
+        <option value="title">Title A–Z</option>
+      </select>
+    </div>
+
+    <p class="status" id="status" role="status" aria-live="polite">Ready to discover anime.</p>
+    <div class="grid" id="animeGrid" aria-label="Anime results"></div>
+
+    <div class="empty" id="emptyState" hidden>
+      <div class="empty-icon">🌌</div>
+      <h3 id="emptyTitle">No anime found</h3>
+      <p id="emptyText">Try another search or genre.</p>
+      <button class="btn btn-primary" id="emptyResetBtn">Show popular anime</button>
+    </div>
+
+    <div class="message-box" id="errorState" hidden>
+      <div class="empty-icon">📡</div>
+      <h3>Couldn't load anime</h3>
+      <p id="errorText">Check your internet connection and try again.</p>
+      <button class="btn btn-primary" id="retryBtn">Try again</button>
+    </div>
+
+    <div class="bottom-actions">
+      <button class="btn btn-primary" id="loadMoreBtn">Load More Anime ↓</button>
+    </div>
+    <p class="small-note" style="text-align:center;margin-top:15px">
+      Anime information provided by Jikan API. Posters and trademarks belong to their respective owners.
+    </p>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div><strong>✦ Anime Universe</strong><br>Made for anime fans, by an anime fan.</div>
+    <div>Independent fan project · Not affiliated with MyAnimeList.<br>Use official viewing services and respect copyright.</div>
+  </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+const API = "https://api.jikan.moe/v4/anime";
+const STORAGE_KEY = "animeUniverseFavoritesV1";
+
+const $ = (id) => document.getElementById(id);
+
+const grid = $("animeGrid");
+const statusEl = $("status");
+const searchInput = $("searchInput");
+const genreSelect = $("genreSelect");
+const sortSelect = $("sortSelect");
+const loadMoreBtn = $("loadMoreBtn");
+const emptyState = $("emptyState");
+const errorState = $("errorState");
+
+let animeList = [];
+let favorites = loadFavorites();
+let page = 1;
+let hasNextPage = true;
+let isLoading = false;
+let myListMode = false;
+let requestNumber = 0;
+let toastTimer;
+let debounceTimer;
+
+function loadFavorites() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    return Array.isArray(saved) ? saved.filter(a => a && a.mal_id) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveFavorites() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
+    updateFavoriteCount();
+    return true;
+  } catch {
+    showToast("Storage is unavailable. Your list may not persist.");
+    return false;
+  }
+}
+
+function updateFavoriteCount() {
+  $("favCount").textContent = favorites.length;
+}
+
+function showToast(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+}
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  })[char]);
+}
+
+function getTitle(anime) {
+  return anime.title_english || anime.title || "Untitled Anime";
+}
+
+function getYear(anime) {
+  return anime.year || anime.aired?.prop?.from?.year || "Year unknown";
+}
+
+function getGenres(anime) {
+  return Array.isArray(anime.genres) ? anime.genres : [];
+}
+
+function getScore(anime) {
+  return typeof anime.score === "number" ? anime.score.toFixed(1) : "N/A";
+}
+
+function showSkeletons() {
+  grid.innerHTML = Array.from({length:8}, () =>
+    '<div class="skeleton" aria-hidden="true"></div>'
+  ).join("");
+}
+
+function setLoading(loading) {
+  isLoading = loading;
+  loadMoreBtn.disabled = loading || !hasNextPage || myListMode;
+  loadMoreBtn.textContent = loading ? "Loading..." :
+    (!hasNextPage || myListMode ? "No more results" : "Load More Anime ↓");
+}
+
+function showError(message) {
+  grid.innerHTML = "";
+  emptyState.hidden = true;
+  errorState.hidden = false;
+  $("errorText").textContent = message;
+  loadMoreBtn.hidden = true;
+  statusEl.textContent = "Unable to load results.";
+}
+
+function makeApiURL(targetPage) {
+  const params = new URLSearchParams();
+  const query = searchInput.value.trim();
+  const genre = genreSelect.value;
+  const sort = sortSelect.value;
+
+  params.set("page", String(targetPage));
+  params.set("limit", "24");
+  params.set("sfw", "true");
+
+  if (query) params.set("q", query);
+  if (genre) params.set("genres", genre);
+
+  if (sort === "score") {
+    params.set("order_by", "score");
+    params.set("sort", "desc");
+  } else if (sort === "popularity") {
+    params.set("order_by", "popularity");
+    params.set("sort", "asc");
+  } else if (sort === "newest") {
+    params.set("order_by", "start_date");
+    params.set("sort", "desc");
+  } else {
+    params.set("order_by", "title");
+    params.set("sort", "asc");
+  }
+
+  return API + "?" + params.toString();
+}
+
+async function loadAnime(reset = true) {
+  if (isLoading) return;
+
+  if (myListMode) {
+    renderCards();
+    return;
+  }
+
+  if (reset) {
+    page = 1;
+    hasNextPage = true;
+    animeList = [];
+    errorState.hidden = true;
+    emptyState.hidden = true;
+    loadMoreBtn.hidden = false;
+    showSkeletons();
+  }
+
+  if (!hasNextPage && !reset) return;
+
+  const thisRequest = ++requestNumber;
+  setLoading(true);
+  statusEl.textContent = "Discovering anime...";
+
+  try {
+    const response = await fetch(makeApiURL(page), {
+      headers: { "Accept": "application/json" }
+    });
+
+    if (thisRequest !== requestNumber) return;
+
+    if (response.status === 429) {
+      throw new Error("The free anime service is busy. Wait about 10 seconds, then retry.");
+    }
+    if (!response.ok) {
+      throw new Error("The anime service returned an error (" + response.status + "). Please retry.");
+    }
+
+    const result = await response.json();
+    const incoming = Array.isArray(result.data) ? result.data : [];
+
+    if (reset) animeList = incoming;
+    else {
+      const known = new Set(animeList.map(a => a.mal_id));
+      animeList.push(...incoming.filter(a => !known.has(a.mal_id)));
+    }
+
+    hasNextPage = Boolean(result.pagination?.has_next_page);
+    page = Number(result.pagination?.current_page || page) + 1;
+
+    favorites = favorites.map(saved => {
+      const latest = animeList.find(a => a.mal_id === saved.mal_id);
+      return latest ? {...saved, ...latest} : saved;
+    });
+    saveFavorites();
+
+    errorState.hidden = true;
+    renderCards();
+    statusEl.textContent = animeList.length
+      ? "Showing " + animeList.length + " anime in this discovery session."
+      : "No anime matched those filters.";
+
+  } catch (error) {
+    if (thisRequest !== requestNumber) return;
+    if (!animeList.length) {
+      showError(error.message || "Please check your internet connection.");
+    } else {
+      showToast(error.message || "Couldn't load more anime.");
+      statusEl.textContent = "Some results couldn't be loaded. You can retry.";
+    }
+  } finally {
+    if (thisRequest === requestNumber) setLoading(false);
+  }
+}
+
+function sortedAnime(items) {
+  const list = [...items];
+  switch (sortSelect.value) {
+    case "score":
+      list.sort((a,b) => (b.score || 0) - (a.score || 0));
+      break;
+    case "popularity":
+      list.sort((a,b) => (a.popularity || Infinity) - (b.popularity || Infinity));
+      break;
+    case "newest":
+      list.sort((a,b) => (getYear(b) || 0) - (getYear(a) || 0));
+      break;
+    case "title":
+      list.sort((a,b) => getTitle(a).localeCompare(getTitle(b)));
+      break;
+  }
+  return list;
+}
+
+function renderCards() {
+  errorState.hidden = true;
+  const list = myListMode ? sortedAnime(favorites) : sortedAnime(animeList);
+  grid.innerHTML = "";
+  emptyState.hidden = list.length !== 0;
+  loadMoreBtn.hidden = myListMode || !hasNextPage;
+
+  if (!list.length) {
+    $("emptyTitle").textContent = myListMode ? "Your list is waiting" : "No anime found";
+    $("emptyText").textContent = myListMode
+      ? "Tap the heart on an anime card to save it here."
+      : "Try a different title or genre, or reset your filters.";
+    statusEl.textContent = myListMode ? "0 saved anime." : "No matching anime.";
+    return;
+  }
+
+  statusEl.textContent = myListMode
+    ? favorites.length + " anime saved on this device."
+    : animeList.length + " anime loaded. Explore and save your favourites.";
+
+  const fragment = document.createDocumentFragment();
+
+  for (const anime of list) {
+    const isFav = favorites.some(f => f.mal_id === anime.mal_id);
+    const title = getTitle(anime);
+    const image = anime.images?.webp?.large_image_url ||
+                  anime.images?.jpg?.large_image_url || "";
+    const genres = getGenres(anime).slice(0,3);
+    const score = getScore(anime);
+    const year = getYear(anime);
+    const episodes = anime.episodes || "?";
+    const safeUrl = anime.url || "https://myanimelist.net/anime/" + anime.mal_id;
+    const watchUrl = "https://www.justwatch.com/in/search?q=" +
+                     encodeURIComponent(title);
+
+    const article = document.createElement("article");
+    article.className = "card";
+
+    const poster = document.createElement("div");
+    poster.className = "poster";
+
+    if (image) {
+      const img = document.createElement("img");
+      img.src = image;
+      img.alt = title + " poster";
+      img.loading = "lazy";
+      img.referrerPolicy = "no-referrer";
+      img.onerror = () => {
+        poster.innerHTML = '<div class="poster-fallback">Poster unavailable</div>';
+      };
+      poster.appendChild(img);
+    } else {
+      poster.innerHTML = '<div class="poster-fallback">Poster unavailable</div>';
+    }
+
+    const scoreBadge = document.createElement("div");
+    scoreBadge.className = "score";
+    scoreBadge.textContent = "★ " + score;
+    poster.appendChild(scoreBadge);
+
+    const favButton = document.createElement("button");
+    favButton.className = "fav" + (isFav ? " active" : "");
+    favButton.textContent = isFav ? "♥" : "♡";
+    favButton.title = isFav ? "Remove from My List" : "Add to My List";
+    favButton.setAttribute("aria-label", favButton.title);
+    favButton.addEventListener("click", () => toggleFavorite(anime));
+    poster.appendChild(favButton);
+
+    const body = document.createElement("div");
+    body.className = "card-body";
+
+    const h3 = document.createElement("h3");
+    h3.className = "card-title";
+    h3.textContent = title;
+    body.appendChild(h3);
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.textContent = year + " · " + episodes + " episodes · " +
+      (anime.type || "Anime");
+    body.appendChild(meta);
+
+    const tags = document.createElement("div");
+    tags.className = "tags";
+    if (genres.length) {
+      for (const genre of genres) {
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = genre.name;
+        tags.appendChild(tag);
+      }
+    } else {
+      const tag = document.createElement("span");
+      tag.className = "tag";
+      tag.textContent = "Anime";
+      tags.appendChild(tag);
+    }
+    body.appendChild(tags);
+
+    const actions = document.createElement("div");
+    actions.className = "card-actions";
+
+    const details = document.createElement("a");
+    details.className = "btn";
+    details.href = safeUrl;
+    details.target = "_blank";
+    details.rel = "noopener noreferrer";
+    details.textContent = "Details ↗";
+
+    const watch = document.createElement("a");
+    watch.className = "btn btn-primary";
+    watch.href = watchUrl;
+    watch.target = "_blank";
+    watch.rel = "noopener noreferrer";
+    watch.textContent = "Watch options ↗";
+
+    actions.append(details, watch);
+    body.appendChild(actions);
+    article.append(poster, body);
+    fragment.appendChild(article);
+  }
+
+  grid.appendChild(fragment);
+}
+
+function toggleFavorite(anime) {
+  const exists = favorites.some(a => a.mal_id === anime.mal_id);
+  if (exists) {
+    favorites = favorites.filter(a => a.mal_id !== anime.mal_id);
+    showToast("Removed from My List.");
+  } else {
+    favorites.unshift(anime);
+    showToast("Added to My List ♥");
+  }
+  saveFavorites();
+  renderCards();
+}
+
+function toggleMyList() {
+  myListMode = !myListMode;
+  $("myListBtn").innerHTML = myListMode
+    ? "← Discover Anime"
+    : "♡ My List <span id='favCount'>" + favorites.length + "</span>";
+  $("heroListBtn").textContent = myListMode ? "← Discover Anime" : "♡ Open My List";
+  $("sectionTitle").textContent = myListMode ? "My Anime List" : "Discover Anime";
+  $("sectionSubtitle").textContent = myListMode
+    ? "Your saved anime, stored on this device."
+    : "Find your next favourite story.";
+
+  if (myListMode) {
+    loadMoreBtn.hidden = true;
+    renderCards();
+  } else {
+    loadAnime(true);
+  }
+  $("discover").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function resetFilters() {
+  searchInput.value = "";
+  genreSelect.value = "";
+  sortSelect.value = "score";
+  myListMode = false;
+  $("myListBtn").innerHTML = "♡ My List <span id='favCount'>" + favorites.length + "</span>";
+  $("heroListBtn").textContent = "♡ Open My List";
+  $("sectionTitle").textContent = "Discover Anime";
+  $("sectionSubtitle").textContent = "Find your next favourite story.";
+  loadAnime(true);
+}
+
+function exportFavorites() {
+  if (!favorites.length) {
+    showToast("Your list is empty. Save an anime first.");
+    return;
+  }
+
+  try {
+    const file = new Blob([JSON.stringify(favorites, null, 2)], {
+      type: "application/json"
+    });
+    const url = URL.createObjectURL(file);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "anime-universe-my-list.json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToast("Your favourites export is ready.");
+  } catch {
+    showToast("Export isn't supported in this browser.");
+  }
+}
+
+function scheduleSearch() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    if (myListMode) {
+      myListMode = false;
+      $("myListBtn").innerHTML = "♡ My List <span id='favCount'>" + favorites.length + "</span>";
+      $("heroListBtn").textContent = "♡ Open My List";
+      $("sectionTitle").textContent = "Discover Anime";
+      $("sectionSubtitle").textContent = "Find your next favourite story.";
+    }
+    loadAnime(true);
+  }, 550);
+}
+
+searchInput.addEventListener("input", scheduleSearch);
+genreSelect.addEventListener("change", () => {
+  if (myListMode) toggleMyList();
+  loadAnime(true);
+});
+sortSelect.addEventListener("change", () => {
+  if (myListMode) renderCards();
+  else if (animeList.length) {
+    renderCards();
+  } else {
+    loadAnime(true);
+  }
+});
+
+$("myListBtn").addEventListener("click", toggleMyList);
+$("heroListBtn").addEventListener("click", toggleMyList);
+$("exportBtn").addEventListener("click", exportFavorites);
+$("exploreBtn").addEventListener("click", () => {
+  $("discover").scrollIntoView({behavior:"smooth"});
+});
+$("resetBtn").addEventListener("click", resetFilters);
+$("emptyResetBtn").addEventListener("click", resetFilters);
+$("retryBtn").addEventListener("click", () => loadAnime(true));
+loadMoreBtn.addEventListener("click", () => loadAnime(false));
+
+updateFavoriteCount();
+loadAnime(true);
+</script>
+</body>
+</html>
